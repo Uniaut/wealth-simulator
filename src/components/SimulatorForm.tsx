@@ -1,4 +1,4 @@
-import { DollarSign, Calendar, PieChart, TrendingUp, Activity, RefreshCw } from 'lucide-react';
+import { DollarSign, PieChart, Activity, RefreshCw } from 'lucide-react';
 import { formatKRW } from '../utils/formatters';
 
 export interface SimulatorInputs {
@@ -31,260 +31,229 @@ export function SimulatorForm({ inputs, onChange, onRegenerate }: Props) {
     };
 
     return (
-        <div className="space-y-8">
+        <div>
             {/* Capital Inputs */}
-            <div className="space-y-5">
-                <label className="block">
-                    <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                        <DollarSign className="w-5 h-5 text-indigo-400" /> Initial Capital (KRW)
-                    </span>
-                    <input
-                        type="number"
-                        value={inputs.initialCapital}
-                        onChange={(e) => handleChange('initialCapital', e.target.value)}
-                        className="w-full p-4 glass-input rounded-xl text-lg mb-2"
-                    />
-                    <div className="flex items-center justify-between text-sm">
-                        <span className="text-indigo-300 font-medium pl-1">
-                            {formatKRW(inputs.initialCapital)} 원
-                        </span>
-                        <div className="flex gap-2">
-                            {[10000000, 50000000, 100000000].map((amount) => (
-                                <button
-                                    key={amount}
-                                    onClick={() => handleChange('initialCapital', (inputs.initialCapital + amount).toString())}
-                                    className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-xs text-gray-400 hover:text-white transition-colors border border-white/5"
-                                >
-                                    +{formatKRW(amount)}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </label>
-
-                <label className="block">
-                    <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                        <Calendar className="w-5 h-5 text-indigo-400" /> Monthly Contribution (KRW)
-                    </span>
-                    <input
-                        type="number"
-                        value={inputs.monthlyContribution}
-                        onChange={(e) => handleChange('monthlyContribution', e.target.value)}
-                        className="w-full p-4 glass-input rounded-xl text-lg mb-2"
-                    />
-                    <div className="flex items-center justify-between text-sm">
-                        <span className="text-indigo-300 font-medium pl-1">
-                            {formatKRW(inputs.monthlyContribution)} 원
-                        </span>
-                        <div className="flex gap-2">
-                            {[100000, 500000, 1000000].map((amount) => (
-                                <button
-                                    key={amount}
-                                    onClick={() => handleChange('monthlyContribution', (inputs.monthlyContribution + amount).toString())}
-                                    className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-xs text-gray-400 hover:text-white transition-colors border border-white/5"
-                                >
-                                    +{formatKRW(amount)}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </label>
+            <div className="section-title">
+                <DollarSign size={20} color="hsl(var(--primary))" />
+                <span>Capital</span>
             </div>
 
-            <div className="h-px bg-white/10 my-6" />
-
-            {/* Strategy Inputs */}
-            <div className="space-y-5">
-                <label className="block">
-                    <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                        <PieChart className="w-5 h-5 text-secondary" /> Allocation Strategy
+            <div className="input-group">
+                <label className="input-label">Initial Capital (KRW)</label>
+                <input
+                    type="number"
+                    value={inputs.initialCapital}
+                    onChange={(e) => handleChange('initialCapital', e.target.value)}
+                    className="input-field"
+                />
+                <div className="flex-row justify-between" style={{ marginTop: '0.5rem' }}>
+                    <span className="text-sm" style={{ color: 'hsl(var(--primary))' }}>
+                        {formatKRW(inputs.initialCapital)}
                     </span>
-                    <div className="grid grid-cols-3 gap-2 p-1 bg-black/20 rounded-xl mb-4">
-                        {(['FIXED', 'GLIDE_CASH', 'GLIDE_LEVERAGE'] as const).map(s => (
+                    <div className="flex-row" style={{ gap: '0.5rem' }}>
+                        {[10000000, 50000000, 100000000].map((amount) => (
                             <button
-                                key={s}
-                                onClick={() => onChange({ ...inputs, strategy: s })}
-                                className={`py-2 text-sm font-medium rounded-lg transition-colors ${inputs.strategy === s
-                                    ? 'bg-indigo-500 text-white shadow-lg'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                    }`}
+                                key={amount}
+                                onClick={() => handleChange('initialCapital', (inputs.initialCapital + amount).toString())}
+                                className="chip"
                             >
-                                {s === 'FIXED' && 'Fixed Cash'}
-                                {s === 'GLIDE_CASH' && 'Cash Glide'}
-                                {s === 'GLIDE_LEVERAGE' && 'Leverage'}
+                                +{formatKRW(amount)}
                             </button>
                         ))}
                     </div>
+                </div>
+            </div>
 
-                    {inputs.strategy === 'FIXED' && (
-                        <div className="flex items-center gap-4">
-                            <span className="text-sm text-gray-400 w-24">Target Cash</span>
+            <div className="input-group">
+                <label className="input-label">Monthly Contribution (KRW)</label>
+                <input
+                    type="number"
+                    value={inputs.monthlyContribution}
+                    onChange={(e) => handleChange('monthlyContribution', e.target.value)}
+                    className="input-field"
+                />
+                <div className="flex-row justify-between" style={{ marginTop: '0.5rem' }}>
+                    <span className="text-sm" style={{ color: 'hsl(var(--primary))' }}>
+                        {formatKRW(inputs.monthlyContribution)}
+                    </span>
+                    <div className="flex-row" style={{ gap: '0.5rem' }}>
+                        {[100000, 500000, 1000000].map((amount) => (
+                            <button
+                                key={amount}
+                                onClick={() => handleChange('monthlyContribution', (inputs.monthlyContribution + amount).toString())}
+                                className="chip"
+                            >
+                                +{formatKRW(amount)}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="mb-lg"></div>
+
+            {/* Strategy Inputs */}
+            <div className="section-title">
+                <PieChart size={20} color="hsl(var(--accent-cyan))" />
+                <span>Strategy</span>
+            </div>
+
+            <div className="input-group">
+                <div className="strategy-selector">
+                    {(['FIXED', 'GLIDE_CASH', 'GLIDE_LEVERAGE'] as const).map(s => (
+                        <div
+                            key={s}
+                            onClick={() => onChange({ ...inputs, strategy: s })}
+                            className={`strategy-option ${inputs.strategy === s ? 'active' : ''}`}
+                        >
+                            {s === 'FIXED' && 'Fixed Cash'}
+                            {s === 'GLIDE_CASH' && 'Cash Glide'}
+                            {s === 'GLIDE_LEVERAGE' && 'Leverage'}
+                        </div>
+                    ))}
+                </div>
+
+                {inputs.strategy === 'FIXED' && (
+                    <div className="input-group">
+                        <div className="flex-row justify-between">
+                            <span className="input-label">Target Cash ({inputs.startRatio}%)</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={inputs.startRatio}
+                            onChange={(e) => handleChange('startRatio', e.target.value)}
+                        />
+                    </div>
+                )}
+
+                {inputs.strategy === 'GLIDE_CASH' && (
+                    <>
+                        <div className="input-group">
+                            <span className="input-label">Start Cash ({inputs.startRatio}%)</span>
                             <input
                                 type="range"
                                 min="0"
                                 max="100"
                                 value={inputs.startRatio}
                                 onChange={(e) => handleChange('startRatio', e.target.value)}
-                                className="flex-1 accent-indigo-500 h-2 rounded-lg cursor-pointer"
                             />
-                            <span className="w-16 text-right font-mono text-indigo-300 text-lg">{inputs.startRatio}%</span>
                         </div>
-                    )}
-
-                    {inputs.strategy === 'GLIDE_CASH' && (
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-400 w-24">Start Cash</span>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="100"
-                                    value={inputs.startRatio}
-                                    onChange={(e) => handleChange('startRatio', e.target.value)}
-                                    className="flex-1 accent-indigo-500 h-2 rounded-lg cursor-pointer"
-                                />
-                                <span className="w-16 text-right font-mono text-indigo-300 text-lg">{inputs.startRatio}%</span>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-400 w-24">End Cash</span>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="100"
-                                    value={inputs.endRatio}
-                                    onChange={(e) => handleChange('endRatio', e.target.value)}
-                                    className="flex-1 accent-pink-500 h-2 rounded-lg cursor-pointer"
-                                />
-                                <span className="w-16 text-right font-mono text-pink-300 text-lg">{inputs.endRatio}%</span>
-                            </div>
+                        <div className="input-group">
+                            <span className="input-label">End Cash ({inputs.endRatio}%)</span>
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={inputs.endRatio}
+                                onChange={(e) => handleChange('endRatio', e.target.value)}
+                            />
                         </div>
-                    )}
+                    </>
+                )}
 
-                    {inputs.strategy === 'GLIDE_LEVERAGE' && (
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-400 w-24">Start Leverage</span>
-                                <input
-                                    type="range"
-                                    min="1"
-                                    max="3"
-                                    step="0.1"
-                                    value={inputs.startRatio}
-                                    onChange={(e) => handleChange('startRatio', e.target.value)}
-                                    className="flex-1 accent-purple-500 h-2 rounded-lg cursor-pointer"
-                                />
-                                <span className="w-16 text-right font-mono text-purple-300 text-lg">{inputs.startRatio}x</span>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-400 w-24">End Leverage</span>
-                                <input
-                                    type="range"
-                                    min="0.5"
-                                    max="3"
-                                    step="0.1"
-                                    value={inputs.endRatio}
-                                    onChange={(e) => handleChange('endRatio', e.target.value)}
-                                    className="flex-1 accent-purple-500 h-2 rounded-lg cursor-pointer"
-                                />
-                                <span className="w-16 text-right font-mono text-purple-300 text-lg">{inputs.endRatio}x</span>
-                            </div>
-                            <div className="flex items-center gap-4 pt-2">
-                                <span className="text-sm text-gray-400 w-24">Loan Rate (%)</span>
-                                <input
-                                    type="number"
-                                    value={inputs.borrowCost}
-                                    onChange={(e) => handleChange('borrowCost', e.target.value)}
-                                    className="w-24 p-2 glass-input rounded-lg text-sm text-right"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </label>
-
-                <label className="block">
-                    <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                        <Calendar className="w-5 h-5 text-indigo-400" /> Duration (Years)
-                    </span>
-
-                    <div className="bg-white/5 rounded-xl p-4 border border-white/5 space-y-4">
-                        <div className="flex items-center gap-4">
-                            <span className="text-2xl font-bold text-white min-w-[3ch] text-center">
-                                {inputs.durationYears}
-                            </span>
+                {inputs.strategy === 'GLIDE_LEVERAGE' && (
+                    <>
+                        <div className="input-group">
+                            <span className="input-label">Start Leverage ({inputs.startRatio}x)</span>
                             <input
                                 type="range"
                                 min="1"
-                                max="60"
-                                value={inputs.durationYears}
-                                onChange={(e) => handleChange('durationYears', e.target.value)}
-                                className="flex-1 accent-indigo-500 h-2 rounded-lg cursor-pointer bg-white/10"
+                                max="3"
+                                step="0.1"
+                                value={inputs.startRatio}
+                                onChange={(e) => handleChange('startRatio', e.target.value)}
                             />
                         </div>
-
-                        <div className="flex gap-2 justify-between">
-                            {[5, 10, 20, 30, 40].map((years) => (
-                                <button
-                                    key={years}
-                                    onClick={() => handleChange('durationYears', years.toString())}
-                                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${inputs.durationYears === years
-                                        ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                                        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
-                                        }`}
-                                >
-                                    {years}y
-                                </button>
-                            ))}
+                        <div className="input-group">
+                            <span className="input-label">End Leverage ({inputs.endRatio}x)</span>
+                            <input
+                                type="range"
+                                min="0.5"
+                                max="3"
+                                step="0.1"
+                                value={inputs.endRatio}
+                                onChange={(e) => handleChange('endRatio', e.target.value)}
+                            />
                         </div>
-                    </div>
-                </label>
+                        <div className="input-group">
+                            <label className="input-label">Loan Rate (%)</label>
+                            <input
+                                type="number"
+                                value={inputs.borrowCost}
+                                onChange={(e) => handleChange('borrowCost', e.target.value)}
+                                className="input-field"
+                                style={{ width: '100px' }}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
 
-            <div className="h-px bg-white/10 my-6" />
-
-            {/* Market Scenario Card */}
-            <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl p-6 border border-indigo-500/20">
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                        <Activity className="w-5 h-5 text-indigo-400" />
-                        Market Scenario
-                    </h3>
-                    <button
-                        onClick={onRegenerate}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 rounded-lg text-sm font-medium transition-colors border border-indigo-500/30"
-                        title="Generate a new random market sequence with the same parameters"
-                    >
-                        <RefreshCw className="w-4 h-4" />
-                        Reroll
-                    </button>
+            <div className="input-group">
+                <span className="input-label">Duration ({inputs.durationYears} Years)</span>
+                <input
+                    type="range"
+                    min="1"
+                    max="60"
+                    value={inputs.durationYears}
+                    onChange={(e) => handleChange('durationYears', e.target.value)}
+                />
+                <div className="flex-row" style={{ gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {[5, 10, 20, 30, 40].map((years) => (
+                        <button
+                            key={years}
+                            onClick={() => handleChange('durationYears', years.toString())}
+                            className="chip"
+                            style={{ flex: 1, textAlign: 'center' }}
+                        >
+                            {years}y
+                        </button>
+                    ))}
                 </div>
+            </div>
 
-                <div className="space-y-6">
-                    <label className="block">
-                        <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                            <TrendingUp className="w-5 h-5 text-indigo-400" /> Expected Annual Return (%)
-                        </span>
-                        <input
-                            type="number"
-                            value={inputs.expectedReturn}
-                            onChange={(e) => handleChange('expectedReturn', e.target.value)}
-                            step="0.1"
-                            className="w-full p-4 glass-input rounded-xl text-lg bg-black/20"
-                        />
-                    </label>
+            <div className="mb-lg"></div>
 
-                    <label className="block">
-                        <span className="text-base font-medium text-gray-300 mb-2 block flex items-center gap-2">
-                            <Activity className="w-5 h-5 text-indigo-400" /> Annual Volatility (%)
-                        </span>
-                        <input
-                            type="number"
-                            value={inputs.volatility}
-                            onChange={(e) => handleChange('volatility', e.target.value)}
-                            step="0.1"
-                            className="w-full p-4 glass-input rounded-xl text-lg bg-black/20"
-                        />
-                        <p className="text-sm text-gray-500 mt-2">StDev of returns. S&P 500 is approx 15%.</p>
-                    </label>
+            {/* Market Scenario */}
+            <div className="section-title justify-between" style={{ borderBottom: 'none' }}>
+                <div className="flex-row">
+                    <Activity size={20} color="hsl(var(--accent-rose))" />
+                    <span>Market</span>
+                </div>
+                <button
+                    onClick={onRegenerate}
+                    className="btn btn-secondary"
+                    style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}
+                >
+                    <RefreshCw size={14} /> Reroll
+                </button>
+            </div>
+
+            <div style={{ background: 'hsla(var(--bg-subtle))', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
+                <div className="input-group">
+                    <label className="input-label">Expected Return (%)</label>
+                    <input
+                        type="number"
+                        value={inputs.expectedReturn}
+                        onChange={(e) => handleChange('expectedReturn', e.target.value)}
+                        step="0.1"
+                        className="input-field"
+                    />
+                </div>
+                <div className="input-group">
+                    <label className="input-label">Volatility (%)</label>
+                    <input
+                        type="number"
+                        value={inputs.volatility}
+                        onChange={(e) => handleChange('volatility', e.target.value)}
+                        step="0.1"
+                        className="input-field"
+                    />
+                    <div className="text-sm" style={{ color: 'hsl(var(--text-muted))', marginTop: '0.5rem' }}>
+                        Ref: S&P 500 ≈ 15%
+                    </div>
                 </div>
             </div>
         </div>

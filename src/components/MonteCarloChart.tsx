@@ -88,7 +88,7 @@ export function MonteCarloChart({ bins }: Props) {
     };
 
     return (
-        <div className="w-full h-[300px]">
+        <div style={{ width: '100%', height: '300px' }}>
             <Bar data={data} options={options} />
         </div>
     );
